@@ -1,6 +1,18 @@
+machine:
+  pre:
+    - sudo add-apt-repository ppa:pdoes/gitflow-avh -y
+    - sudo apt-get update
+    - sudo apt-get install git-flow
+
+
+dependencies:
+  post:
+    - git config --global user.email $GIT_USERMAIL
+    - git config --global user.name $GIT_USERNAME
+    - npm install -g generate-release
+
 test:
   override:
     - npm run clone
   post:
-    - npm install -g generate-release
-    - cd repo && generate-release
+    - cd repo && git flow init -d . && generate-release -t minor -d ../.release.json
